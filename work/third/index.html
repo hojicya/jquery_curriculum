@@ -31,19 +31,14 @@
       // .addClass() クラスを追加します。
       // .removeClass() クラスを削除します。
 
-      // $('.nav > li').click(function(){
-      //   let index = $(this).index();
-      //   $('.contents > li').css('display' , 'none');
-      //   $('.contents > li').eq(index).css('display' , 'block');
-      // });
+      $(function() {
 
-      $('.nav > li').click(function(){
-        let index = $(this).index();
-        $('.contents > li').addClass('is-hidden');
-        $('.contents > li').eq(index).removeClass('is-hidden');
+        $('.nav').find('li').click(function() {
+          let index = $(this).index();
+          $('.contents').find('li').addClass('is-hidden');
+          $('.contents').find('li').eq(index).removeClass('is-hidden');
+        });
       });
-
     </script>
   </body>
 </html>
-

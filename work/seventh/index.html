@@ -35,38 +35,42 @@
       // .width() 要素の幅を取得します。
       // .length 要素の個数を取得します。
 
-      $(function(){
+      // jQueryでdiv.slideの数と幅を取得してJavaScriptで計算してjQueryでスタイルシートを指定する
 
-        let slideWidth = $('li').width();
-        let slideNum = $('li').length;
-        let slideListWidth = slideWidth * slideNum;
-        let slideCurrent = 0;
+      $(function() {
 
-        $('.slider-list').css('width',slideListWidth);
+        let slideWidth = $('.slider-list').find('li').width(); //outerWith
+        let slideNum = $('.slider-list').find('li').length;
+        let slideSetWidth = slideWidth * slideNum;
+        let slideCurrent = 0; //現在置
 
-        let sliding = function(){
-          if(slideCurrent < 0){
-          slideCurrent = slideNum -1;
-        }else if(slideCurrent > slideNum -1){
-          slideCurrent = 0;
-        }
-        
-          $('.slider-list').animate({
-            'left':slideCurrent * -slideWidth
+        $('.slider-list').css('width' , slideSetWidth);
+
+        function sliding() {
+
+          if(slideCurrent < 0) {
+            slideCurrent = slideNum -1; // = index
+          }else if(slideCurrent > slideNum -1) { 
+            slideCurrent = 0;
+          }
+
+          $('.slider-list').stop().animate({
+            left: slideCurrent * -slideWidth,
           });
         }
 
-        $('.is-next').click(function(){
-          slideCurrent++;
-          sliding();
+        $('.slider-ctrl-btn').click(function() {
+          let data = $(this).data('ctrl');
+
+          if(data == 'prev') {
+            slideCurrent--;
+            sliding();
+          }else if(data == 'next') {
+            slideCurrent++;
+            sliding();
+          }
         });
 
-        $('.is-prev').click(function(){
-          slideCurrent--;
-          sliding();
-        });
-
-        
       });
     </script>
   </body>

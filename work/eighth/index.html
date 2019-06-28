@@ -11,7 +11,7 @@
   </head>
   <body>
     <div class="wrapper">
-      <div class="menu">
+      <div class="menu">c
         <span class="menu__btn" data-scroll-place-type="home">Home</span>
         <span class="menu__btn" data-scroll-place-type="news">News</span>
         <span class="menu__btn" data-scroll-place-type="about">About</span>
@@ -26,6 +26,7 @@
       </div>
       <span class="scrollTopBtn" style="display: none;"></span>
     </div>
+    <!-- <div class="scroll" style="position:fixed; left:5px; bottom:5px;"></div> -->
     <script src="../../common/js/jquery.js"></script>
     <script>
       // 今回やるのはページ内スクロールです。
@@ -42,6 +43,58 @@
       // .offset().top 要素の位置を取得します。
       // .fadeIn() 要素をフェードインさせる。
       // .fadeOut() 要素をフェードアウトさせる。
+
+      $(function() {
+
+        // トップへ戻る
+
+        $('.scrollTopBtn').hide();
+
+        $(window).scroll(function() {
+          // $('.scroll').text($(this).scrollTop()); //スクロール量の確認
+
+          if($(this).scrollTop() > 100) {
+            $('.scrollTopBtn').fadeIn(500);
+          } else {
+            $('.scrollTopBtn').fadeOut(500);
+          }
+          
+        });
+
+        $('.scrollTopBtn').click(function() {
+          $('html, body').animate({
+            scrollTop:0},500);
+        });
+
+        // ページ内スクロール
+
+        $('.menu__btn').click(function() {
+
+          let menuData = $(this).data('scroll-place-type');
+          let speed = 500;
+          // let contentData = $('.title').data('scroll-place-type');
+
+          // $('html, body').animate({
+          //   scrollTop:$('.body').data('scroll-place-type').offset().top,
+          // }, 500);
+
+          if(menuData == 'home') {
+            $('html, body').animate({
+              scrollTop:$('.title[data-scroll-place-type=home]').offset().top,
+            }, speed);
+          }else if(menuData == 'news') {
+            $('html, body').animate({
+              scrollTop:$('.title[data-scroll-place-type=news]').offset().top,
+            }, speed);
+          }else if(menuData == 'about') {
+            $('html, body').animate({
+              scrollTop:$('.title[data-scroll-place-type=about]').offset().top,
+            }, speed);
+          }
+        });
+
+      });
+
     </script>
   </body>
 </html>
