@@ -11,7 +11,11 @@
   </head>
   <body>
     <div class="wrapper">
-      <ul class="colorList"></ul>
+      <ul class="colorList">
+        <li class="colorList__item">
+          <p class="colorList__title" style="background-color: ;"></p>
+        </li>
+      </ul>
     </div>
     <script src="../../common/js/jquery.js"></script>
     <script>
@@ -42,6 +46,39 @@
       // </li>
       //
       // このテンプレートに取得してきた中身を入れて表示します。
+
+      // [文法]
+
+      $(function(){
+
+        $.ajax({
+          url: './data.json' // リクエストを送信する先のurl
+        })
+        .done(function(data) {
+          console.log(data);
+
+          var listElements = ''; 
+          // var listElements = []; 
+
+          $.each(data.colorsArray, function(index, obj){
+            console.log(obj);
+              listElements += '<li class="colorList__item"><p class="colorList__title" style="background-color:' + obj.hexValue + ';">' + obj.colorName + '</p></li>';
+              // listElements.push('<li class="colorList__item"><p class="colorList__title" style="background-color:' + obj.hexValue + ';">' + obj.colorName + '</p></li>');
+          });
+
+          $('.colorList').html(listElements);
+
+          // $.each(data.colorsArray, function(index, obj){
+          //   $('.colorList').append(
+          //     '<li class="colorList__item">'+
+          //     '<p class="colorList__title" style="background-color:' + obj.hexValue + ';">' + obj.colorName + '</p>',
+          //     '</li>',
+          //   );
+          // });
+        });
+
+    });
+
     </script>
   </body>
 </html>

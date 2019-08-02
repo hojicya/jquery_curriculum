@@ -68,6 +68,114 @@
       //
       //
       //
+
+      $(function() {
+
+        var pageNum = 0; //clickの中に入れると初期化されて毎回０になる。
+        var prevInput = '';
+
+        $('.search__btn').click(function(){
+          request();
+        });
+
+        function request() {
+          var input = $('.search__text__input').val();
+          if (input === prevInput) { 
+            pageNum++;
+          } else {
+            $('.lists').empty();
+            pageNum = 1;
+            prevInput = input;
+          }
+          // prevInput = input;
+          console.log(pageNum);
+
+          $.ajax({
+            url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522', //リクエストの送先
+            type: 'GET', //リクエストの送る方法
+            datatype: 'json', //どういう形でデータを返すか
+            data: { //urlに対して情報を送るかの指定
+              // 「区分:サービス固有パラメーター」を確認して、必要な情報をdata内に入れましょう。
+              applicationId: '1019399324990976605', // (今回はこのIDを使用してください)
+              booksGenreId: '001',
+              keyword: input,
+              hits: 20,
+              page: pageNum,
+            },
+          })
+          .done(function(data) {
+            list(data);
+          })
+          .fail(function(xhr, textStatus, errorThrown) {
+            error(xhr, textStatus, errorThrown);
+          })
+        }
+
+        function list(data) { 
+          console.log(data);
+          if (data.count === 0) { //検索結果が0だった時の処理
+            $('.message').remove();
+            $('.lists').prepend(
+              '<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>'
+            );
+          } else { //検索結果が１以上の時の処理
+            var list = '';
+            $.each(data.Items ,function(i,item) {
+              console.log(data.Items);
+              list += 
+              "<li class='lists__item'>" + 
+                "<div class='lists__item__inner'>" +
+                  "<a href='" + item.Item.itemUrl + "' class='lists__item__link' target='_blank'>" +
+                    "<img src='" + item.Item.largeImageUrl + "' class='lists__item__img' alt=''>" +
+                    "<p class='lists__item__detail'>作品名：" + item.Item.title + "</p>" +
+                    "<p class='lists__item__detail'>作者　：" + item.Item.author + "</p>" +
+                    "<p class='lists__item__detail'>出版社：" + item.Item.publisherName + "</p>" +
+                  "</a>" +
+                "</div>" +
+              "</li>";
+            });
+            $('.lists').prepend(list);
+          }
+        }
+
+        function error(xhr, textStatus, errorThrown) {
+          console.log(xhr);
+          console.log(xhr.responseJSON);
+          console.log(xhr.status);
+          // console.log(textStatus);
+          // console.log(errorThrown);
+
+          // var errorMessage = xhr.responseJSON.error_description;
+
+          $('.lists').empty();
+          // var caution = $('.lists').prepend('<div class="message">' + errorMessage +'</div>');
+          // console.log(caution);
+          // console.log($('.lists'));
+          // caution.before('test')
+
+          if (!xhr.responseJSON) {
+            console.log('ネットワークに繋がっていません。');
+            $('.lists').prepend('<div class="message">ネットワークに繋がっていません。</div>');
+          } else {
+            $('.lists').prepend('<div class="message">' + xhr.responseJSON.error_description +'</div>');
+          }
+          
+          // if (status === 400) {
+          //   console.log(errorMessage);
+          //   caution;
+          // } else if (status === 429) {
+          //   console.log(errorMessage);
+          //   caution;
+          // } else if (status === 500) {
+          //   console.log(errorMessage);
+          //   caution;
+          // } else if (status === 503) {
+          //   console.log(errorMessage);
+          //   caution;
+          // }
+        }
+      });
+
     </script>
   </body>
 </html>

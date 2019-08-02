@@ -100,34 +100,58 @@
 
       $(function() {
 
-        // $('.select').click(function() {
-        //   let value = $(this).val();
-        //   let data = $('.list > li').data('category-type');
-
-        //   if(value == data) {
-        //     $('.list > li').show();
-        //   } else if (value != data) {
-        //     $('.list > li').hide();
-        //   }
-        // });
-
         $('.select').change(function() { //値が変更されたときに実行
-          let value = $(this).val();
-          // console.log(value);
+          var value = $(this).val();
+          if(value === 'all') {
+            $('.list').find('li').show();
+            return;
+          }
 
-          $('.list > li').each(function() {
-            let data = $(this).data('category-type');
 
-            if(value == 'all') {
-              $(this).show();
-            }else{
-              if(value == data) {
-                $(this).show();
-              }else{ // value != data
-                $(this).hide();
-              }
+          $('.list').find('li').each(function(index, item) {
+            console.log(item);
+            console.log(this);
+            var data = $(item).data('category-type');
+            // console.log(data);
+            
+
+            if (value === data) {
+              $(item).show();
+            } else {
+              $(item).hide();
             }
+
           });
+
+          // if(value === 'all') {
+          //   $('.list').find('li').show();
+          // }else {
+          //   $('.list').find('li').each(function() {
+          //     if(value === data) {
+          //       $('.list').find('li').show();
+          //     }else { //value !== data
+          //       $('.list').find('li').hide();
+          //     }
+          //   });
+          // }
+
+          
+
+          // $('.list > li').each(function() {
+          //   var data = $(this).data('category-type');
+
+          //   if(value === 'all') {
+          //     $(this).show();
+          //   }else{
+          //     if(value === data) {
+          //       $(this).show();
+          //     }else{ // value != data
+          //       $(this).hide();
+          //     }
+          //   }
+          // });
+
+          
         });
 
 

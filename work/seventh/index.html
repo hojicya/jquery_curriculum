@@ -35,41 +35,53 @@
       // .width() 要素の幅を取得します。
       // .length 要素の個数を取得します。
 
-      // jQueryでdiv.slideの数と幅を取得してJavaScriptで計算してjQueryでスタイルシートを指定する
-
       $(function() {
 
-        let slideWidth = $('.slider-list').find('li').width(); //outerWith
-        let slideNum = $('.slider-list').find('li').length;
-        let slideSetWidth = slideWidth * slideNum;
-        let slideCurrent = 0; //現在置
 
-        $('.slider-list').css('width' , slideSetWidth);
+
+        var slideLength = $('.slider-list').find('li').length;
+        var current = 0; //現在置
+        var slideWidth = [];
+        var left = 0;[]
+
+        for (var i = 0; i < slideLength; i++) {
+          if (i !== 0) {
+            left += $('.slider-list').find('li').eq(i - 1).width();
+          }
+          slideWidth.push(left);
+        }
+        console.log(slideWidth);
+
 
         function sliding() {
 
-          if(slideCurrent < 0) {
-            slideCurrent = slideNum -1; // = index
-          }else if(slideCurrent > slideNum -1) { 
-            slideCurrent = 0;
+          if(current < 0) {
+            current = slideLength -1; // = index
+          }else if(current > slideLength -1) { 
+            current = 0;
           }
 
-          $('.slider-list').stop().animate({
-            left: slideCurrent * -slideWidth,
-          });
+          // for (var i = 0; i < slideLength; i++) {
+          //     console.log('test');
+            $('.slider-list').stop().animate({
+              left: -slideWidth[current],
+            });
+          // }
         }
 
         $('.slider-ctrl-btn').click(function() {
-          let data = $(this).data('ctrl');
+          var data = $(this).data('ctrl');
 
-          if(data == 'prev') {
-            slideCurrent--;
+          if(data === 'prev') {
+            current--;
             sliding();
-          }else if(data == 'next') {
-            slideCurrent++;
+          }else if(data === 'next') {
+            current++;
             sliding();
           }
+          console.log(current);
         });
+
 
       });
     </script>

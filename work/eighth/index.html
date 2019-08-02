@@ -78,19 +78,23 @@
           //   scrollTop:$('.body').data('scroll-place-type').offset().top,
           // }, 500);
 
-          if(menuData == 'home') {
-            $('html, body').animate({
-              scrollTop:$('.title[data-scroll-place-type=home]').offset().top,
-            }, speed);
-          }else if(menuData == 'news') {
-            $('html, body').animate({
-              scrollTop:$('.title[data-scroll-place-type=news]').offset().top,
-            }, speed);
-          }else if(menuData == 'about') {
-            $('html, body').animate({
-              scrollTop:$('.title[data-scroll-place-type=about]').offset().top,
-            }, speed);
-          }
+          // if(menuData == 'home') {
+          //   $('html, body').animate({
+          //     scrollTop:$('.title[data-scroll-place-type=home]').offset().top,
+          //   }, speed);
+          // }else if(menuData == 'news') {
+          //   $('html, body').animate({
+          //     scrollTop:$('.title[data-scroll-place-type=news]').offset().top,
+          //   }, speed);
+          // }else if(menuData == 'about') {
+          //   $('html, body').animate({
+          //     scrollTop:$('.title[data-scroll-place-type=about]').offset().top,
+          //   }, speed);
+          // }
+
+          var target = $('.contents').find($('[data-scroll-place-type="' + menuData + '"]'));
+          $('html, body').animate({scrollTop:target.offset().top}, 500, 'swing');
+
         });
 
       });
